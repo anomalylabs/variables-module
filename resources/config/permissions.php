@@ -3,7 +3,7 @@
 return [
     'variables' => [
         'read',
-        'edit',
+        'write',
         'delete',
     ],
     'groups'    => [
