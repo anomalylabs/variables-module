@@ -7,11 +7,11 @@ class GetValuePresenterTest extends TestCase
     {
         $this->assertInstanceOf(
             \Anomaly\Streams\Platform\Addon\FieldType\FieldTypePresenter::class,
-            dispatch_now(new \Anomaly\VariablesModule\Variable\Command\GetValuePresenter('examples', 'email'))
+            dispatch_sync(new \Anomaly\VariablesModule\Variable\Command\GetValuePresenter('examples', 'email'))
         );
 
         $this->assertNull(
-            dispatch_now(new \Anomaly\VariablesModule\Variable\Command\GetValuePresenter('examples', str_random()))
+            dispatch_sync(new \Anomaly\VariablesModule\Variable\Command\GetValuePresenter('examples', str_random()))
         );
     }
 }

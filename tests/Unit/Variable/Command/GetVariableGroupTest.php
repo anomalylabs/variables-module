@@ -7,11 +7,11 @@ class GetVariableGroupTest extends TestCase
     {
         $this->assertInstanceOf(
             \Anomaly\Streams\Platform\Model\Variables\VariablesExamplesEntryModel::class,
-            dispatch_now(new \Anomaly\VariablesModule\Variable\Command\GetVariableGroup('examples'))
+            dispatch_sync(new \Anomaly\VariablesModule\Variable\Command\GetVariableGroup('examples'))
         );
 
         $this->assertNull(
-            dispatch_now(new \Anomaly\VariablesModule\Variable\Command\GetVariableGroup(str_random()))
+            dispatch_sync(new \Anomaly\VariablesModule\Variable\Command\GetVariableGroup(str_random()))
         );
     }
 }

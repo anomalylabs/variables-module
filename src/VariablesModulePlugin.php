@@ -27,19 +27,19 @@ class VariablesModulePlugin extends Plugin
             new \Twig_SimpleFunction(
                 'variable',
                 function ($group, $field) {
-                    return $this->dispatch(new GetValuePresenter($group, $field));
+                    return dispatch_sync(new GetValuePresenter($group, $field));
                 }
             ),
             new \Twig_SimpleFunction(
                 'variable_value',
                 function ($group, $field, $default = null) {
-                    return $this->dispatch(new GetVariableValue($group, $field, $default));
+                    return dispatch_sync(new GetVariableValue($group, $field, $default));
                 }
             ),
             new \Twig_SimpleFunction(
                 'variable_group',
                 function ($group) {
-                    return (new Decorator())->decorate($this->dispatch(new GetVariableGroup($group)));
+                    return (new Decorator())->decorate(dispatch_sync(new GetVariableGroup($group)));
                 }
             ),
         ];

@@ -7,11 +7,11 @@ class GetVariableValueTest extends TestCase
     {
         $this->assertEquals(
             'demo@example.com',
-            dispatch_now(new \Anomaly\VariablesModule\Variable\Command\GetVariableValue('examples', 'email'))
+            dispatch_sync(new \Anomaly\VariablesModule\Variable\Command\GetVariableValue('examples', 'email'))
         );
 
         $this->assertNull(
-            dispatch_now(new \Anomaly\VariablesModule\Variable\Command\GetVariableValue('examples', str_random()))
+            dispatch_sync(new \Anomaly\VariablesModule\Variable\Command\GetVariableValue('examples', str_random()))
         );
     }
 }
