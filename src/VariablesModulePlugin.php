@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Support\Decorator;
 use Anomaly\VariablesModule\Variable\Command\GetValuePresenter;
 use Anomaly\VariablesModule\Variable\Command\GetVariableGroup;
 use Anomaly\VariablesModule\Variable\Command\GetVariableValue;
+use Twig\TwigFunction;
 
 /**
  * Class VariablesModulePlugin
@@ -24,19 +25,19 @@ class VariablesModulePlugin extends Plugin
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'variable',
                 function ($group, $field) {
                     return dispatch_sync(new GetValuePresenter($group, $field));
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'variable_value',
                 function ($group, $field, $default = null) {
                     return dispatch_sync(new GetVariableValue($group, $field, $default));
                 }
             ),
-            new \Twig_SimpleFunction(
+            new TwigFunction(
                 'variable_group',
                 function ($group) {
                     return (new Decorator())->decorate(dispatch_sync(new GetVariableGroup($group)));
