@@ -8,32 +8,62 @@ The Variables Module provides a simple interface for managing reusable content s
 
 ## Features
 
-- Field-based variables
+- Field-based variables, using any installed field type
 - Group organization
-- Easy access from templates
-- Caching support
-- Multiple field types
+- Presenter access, so a variable renders as its field type does
+- Easy access from templates and from PHP
 
 ## Usage
+
+Variables live in **groups**. A group is a stream, and each variable is a field on it, so a
+variable is always addressed by its group slug and its field slug.
 
 ### Accessing Variables
 
 ```twig
-{# Get variable value #}
-{{ variables('site_name') }}
+{# The raw stored value #}
+{{ variable_value('social', 'facebook_url') }}
+{# https://facebook.com/pyrocms #}
 
-{# Get variable from group #}
-{{ variables('contact', 'email') }}
+{# The field type presenter, so the value renders as its type does #}
+{{ variable('social', 'facebook_url').link('Facebook')|raw }}
+{# <a href="https://facebook.com/pyrocms">Facebook</a> #}
 
-{# Check if variable exists #}
-{% if variables('feature_enabled') %}
-    <p>Feature is enabled</p>
-{% endif %}
+{# The whole group, to reach several variables at once #}
+{% set social = variable_group('social') %}
+
+{{ social.facebook_url }}
+{{ social.facebook_url.link('Facebook')|raw }}
+```
+
+`variable_value` takes an optional third argument used when the variable has no value:
+
+```twig
+{{ variable_value('social', 'facebook_url', 'https://pyrocms.com') }}
+```
+
+Both `variable` and `variable_value` require the group and the field — there is no single-argument
+form, because a field slug is only unique within its group.
+
+### In PHP
+
+```php
+use Anomaly\VariablesModule\Variable\Contract\VariableRepositoryInterface;
+
+$variables = app(VariableRepositoryInterface::class);
+
+$value     = $variables->get('social', 'facebook_url');
+$presenter = $variables->presenter('social', 'facebook_url');
+$group     = $variables->group('social');
+
+echo $presenter->link('Facebook');
+echo $group->facebook_url;
 ```
 
 ### Defining Variables
 
-Navigate to **Content > Variables** in the control panel to create and manage variables.
+Navigate to **Content > Variables** in the control panel to create and manage groups and the
+variables within them.
 
 ## Requirements
 
