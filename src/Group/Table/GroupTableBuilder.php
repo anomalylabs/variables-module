@@ -25,11 +25,18 @@ class GroupTableBuilder extends StreamTableBuilder
      * @var array
      */
     protected $buttons = [
-        'edit',
-        'edit' => [
-            'text' => 'module::button.manage',
-            'href' => 'admin/variables/edit/{entry.id}',
+        [
+            'button'     => 'edit',
+            'slug'       => 'edit',
+            'permission' => 'anomaly.module.variables::groups.write',
         ],
-        'assignments',
+        'edit'        => [
+            'text'       => 'module::button.manage',
+            'href'       => 'admin/variables/edit/{entry.id}',
+            'permission' => 'anomaly.module.variables::variables.write',
+        ],
+        'assignments' => [
+            'permission' => 'anomaly.module.variables::groups.write',
+        ],
     ];
 }

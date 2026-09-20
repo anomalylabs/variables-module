@@ -1,6 +1,7 @@
 <?php namespace Anomaly\VariablesModule\Http\Controller\Admin;
 
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
+use Anomaly\Streams\Platform\Support\Authorizer;
 use Anomaly\VariablesModule\Group\Form\GroupFormBuilder;
 use Anomaly\VariablesModule\Group\Table\GroupTableBuilder;
 
@@ -13,6 +14,36 @@ use Anomaly\VariablesModule\Group\Table\GroupTableBuilder;
  */
 class GroupsController extends AdminController
 {
+
+    /**
+     * Create a new GroupsController instance.
+     *
+     * @param Authorizer $authorizer
+     */
+    public function __construct(Authorizer $authorizer)
+    {
+        parent::__construct();
+
+        $this->middleware(
+            function ($request, $next) use ($authorizer) {
+                if (!$authorizer->authorize('anomaly.module.variables::groups.read')) {
+                    abort(403);
+                }
+
+                return $next($request);
+            }
+        )->only('index');
+
+        $this->middleware(
+            function ($request, $next) use ($authorizer) {
+                if (!$authorizer->authorize('anomaly.module.variables::groups.write')) {
+                    abort(403);
+                }
+
+                return $next($request);
+            }
+        )->only(['create', 'edit']);
+    }
 
     /**
      * Return an index of existing entries.

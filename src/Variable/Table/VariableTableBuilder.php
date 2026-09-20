@@ -46,7 +46,8 @@ class VariableTableBuilder extends StreamTableBuilder
      */
     protected $buttons = [
         'edit' => [
-            'text' => 'module::button.manage',
+            'text'       => 'module::button.manage',
+            'permission' => 'anomaly.module.variables::variables.write',
         ],
     ];
 
